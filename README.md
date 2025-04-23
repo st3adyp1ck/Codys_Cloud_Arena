@@ -147,5 +147,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
       <img src="public/northstar-logo.png" height="60" alt="Northstar Coding">
     </a>
   </p>
-  <p>© 2023 Northstar Coding. All rights reserved.</p>
+  <p>© 2025 Northstar Coding. All rights reserved.</p>
 </div>
