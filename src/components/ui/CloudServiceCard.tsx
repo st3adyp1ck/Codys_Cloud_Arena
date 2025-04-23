@@ -8,9 +8,12 @@ interface CloudServiceCardProps {
 
 const CloudServiceCard: React.FC<CloudServiceCardProps> = ({ service }) => {
   return (
-    <div className="frosted-glass rounded-lg overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(123,66,255,0.2)]">
+    <div className="motherboard-card purple rounded-lg overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(123,66,255,0.2)] p-0 relative">
+      <div className="circuit-traces"></div>
+      <div className="connection-points"></div>
+
       {/* Card header */}
-      <div className="p-3 border-b border-[#7b42ff]/20">
+      <div className="p-3 border-b border-[#7b42ff]/20 relative z-10">
         <div className="flex items-center">
           <div className="w-8 h-8 rounded-full bg-[#7b42ff]/20 flex items-center justify-center mr-2 border border-[#7b42ff]/30">
             <Server className="w-4 h-4 text-[#7b42ff]" />
@@ -22,12 +25,12 @@ const CloudServiceCard: React.FC<CloudServiceCardProps> = ({ service }) => {
       </div>
 
       {/* Card content */}
-      <div className="p-3">
-        <p className="text-sm text-black font-medium mb-3">{service.description}</p>
+      <div className="p-3 relative z-10">
+        <p className="text-sm text-[#e9f1f7] font-medium mb-3">{service.description}</p>
 
         {/* Benefits */}
         <h4 className="text-xs font-['Orbitron'] text-[#b14aed] font-bold mb-2 text-shadow-sm">KEY BENEFITS:</h4>
-        <ul className="text-xs text-black font-medium space-y-1 pl-5 list-disc mb-4">
+        <ul className="text-xs text-[#e9f1f7] font-medium space-y-1 pl-5 list-disc mb-4">
           {service.benefits.map((benefit, index) => (
             <li key={index}>{benefit}</li>
           ))}
@@ -48,9 +51,6 @@ const CloudServiceCard: React.FC<CloudServiceCardProps> = ({ service }) => {
           </svg>
         </a>
       </div>
-
-      {/* Scan line effect */}
-      <div className="absolute left-0 top-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#7b42ff] to-transparent opacity-70 animate-scan"></div>
     </div>
   );
 };

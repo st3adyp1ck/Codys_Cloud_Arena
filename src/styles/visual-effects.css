@@ -1,0 +1,449 @@
+/* Visual Effects for Cody's Cloud Arena */
+
+/* Custom Cursors */
+.cursor-default {
+  cursor: url('/cursors/default.png'), auto;
+}
+
+.cursor-pointer {
+  cursor: url('/cursors/pointer.png'), pointer;
+}
+
+.cursor-text {
+  cursor: url('/cursors/text.png'), text;
+}
+
+.cursor-move {
+  cursor: url('/cursors/move.png'), move;
+}
+
+.cursor-not-allowed {
+  cursor: url('/cursors/not-allowed.png'), not-allowed;
+}
+
+/* Apply custom cursors to common elements */
+body {
+  cursor: url('/cursors/default.png'), auto;
+}
+
+a,
+button,
+[role="button"],
+.clickable {
+  cursor: url('/cursors/pointer.png'), pointer;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  cursor: url('/cursors/text.png'), text;
+}
+
+/* Floating Particles */
+.particles-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.particle {
+  position: absolute;
+  background: radial-gradient(circle, rgba(0, 240, 255, 0.8) 0%, rgba(0, 240, 255, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.particle-purple {
+  background: radial-gradient(circle, rgba(123, 66, 255, 0.8) 0%, rgba(123, 66, 255, 0) 70%);
+}
+
+.particle-green {
+  background: radial-gradient(circle, rgba(0, 255, 136, 0.8) 0%, rgba(0, 255, 136, 0) 70%);
+}
+
+/* Vertical Scanning Line */
+.vertical-scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(to bottom,
+      rgba(0, 240, 255, 0) 0%,
+      rgba(0, 240, 255, 0.8) 50%,
+      rgba(0, 240, 255, 0) 100%);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  pointer-events: none;
+  z-index: 2;
+  animation: scan-vertical 8s linear infinite;
+}
+
+@keyframes scan-vertical {
+  0% {
+    left: -5px;
+    opacity: 0;
+  }
+
+  5% {
+    opacity: 1;
+  }
+
+  95% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+/* Corner Decorations */
+.corner-decoration {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.corner-decoration-top-left {
+  top: 0;
+  left: 0;
+  border-top: 2px solid rgba(0, 240, 255, 0.7);
+  border-left: 2px solid rgba(0, 240, 255, 0.7);
+}
+
+.corner-decoration-top-right {
+  top: 0;
+  right: 0;
+  border-top: 2px solid rgba(123, 66, 255, 0.7);
+  border-right: 2px solid rgba(123, 66, 255, 0.7);
+}
+
+.corner-decoration-bottom-left {
+  bottom: 0;
+  left: 0;
+  border-bottom: 2px solid rgba(123, 66, 255, 0.7);
+  border-left: 2px solid rgba(123, 66, 255, 0.7);
+}
+
+.corner-decoration-bottom-right {
+  bottom: 0;
+  right: 0;
+  border-bottom: 2px solid rgba(0, 240, 255, 0.7);
+  border-right: 2px solid rgba(0, 240, 255, 0.7);
+}
+
+/* Corner decoration inner elements */
+.corner-decoration::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: currentColor;
+  border-radius: 50%;
+}
+
+.corner-decoration-top-left::before {
+  top: 10px;
+  left: 10px;
+  color: rgba(0, 240, 255, 0.7);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.corner-decoration-top-right::before {
+  top: 10px;
+  right: 10px;
+  color: rgba(123, 66, 255, 0.7);
+  animation: pulse-glow 2s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.corner-decoration-bottom-left::before {
+  bottom: 10px;
+  left: 10px;
+  color: rgba(123, 66, 255, 0.7);
+  animation: pulse-glow 2s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.corner-decoration-bottom-right::before {
+  bottom: 10px;
+  right: 10px;
+  color: rgba(0, 240, 255, 0.7);
+  animation: pulse-glow 2s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+/* Circuit hover effects */
+.circuit-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.circuit-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent),
+    url('/images/circuit-pattern.png') repeat;
+  background-size: 200px;
+  opacity: 0;
+  transition: opacity 0.3s ease, left 0.8s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.circuit-hover:hover::before {
+  opacity: 0.7;
+  left: 0;
+}
+
+/* Text glitch effect */
+.text-glitch {
+  position: relative;
+  display: inline-block;
+}
+
+.text-glitch::before,
+.text-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.text-glitch::before {
+  animation: glitch-effect 3s infinite;
+  color: #00f0ff;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  transform: translate(-2px, -2px);
+}
+
+.text-glitch::after {
+  animation: glitch-effect 2s infinite reverse;
+  color: #7b42ff;
+  clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+  transform: translate(2px, 2px);
+}
+
+@keyframes glitch-effect {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-3px, 3px);
+  }
+
+  40% {
+    transform: translate(-3px, -3px);
+  }
+
+  60% {
+    transform: translate(3px, 3px);
+  }
+
+  80% {
+    transform: translate(3px, -3px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Mini radar animation */
+.mini-radar {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(10, 17, 40, 0.7);
+  border: 1px solid rgba(0, 240, 255, 0.5);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.radar-sweep {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 2px;
+  background-color: rgba(0, 240, 255, 0.7);
+  transform-origin: left center;
+  animation: radar-sweep 4s linear infinite;
+}
+
+@keyframes radar-sweep {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.radar-ping {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 240, 255, 0.7);
+  animation: radar-ping 2s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.1);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* Holographic overlay */
+.holographic-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg,
+      rgba(0, 240, 255, 0.1) 0%,
+      rgba(123, 66, 255, 0.1) 50%,
+      rgba(0, 240, 255, 0.1) 100%);
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.holographic-overlay.active {
+  opacity: 1;
+}
+
+.holographic-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(0deg,
+      transparent,
+      rgba(0, 240, 255, 0.05) 1px,
+      transparent 2px);
+  pointer-events: none;
+}
+
+/* Energy/power level indicators */
+.energy-bar {
+  position: relative;
+  height: 8px;
+  background-color: rgba(10, 17, 40, 0.7);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.energy-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00a2b3, #00f0ff);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.energy-bar-fill.high {
+  background: linear-gradient(90deg, #00a2b3, #00ff88);
+}
+
+.energy-bar-fill.medium {
+  background: linear-gradient(90deg, #ffcc00, #ff8c47);
+}
+
+.energy-bar-fill.low {
+  background: linear-gradient(90deg, #ff3366, #ff5e00);
+}
+
+.energy-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: energy-shine 2s linear infinite;
+}
+
+@keyframes energy-shine {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* Loading transitions */
+.screen-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(5, 9, 20, 0.9);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.screen-transition.active {
+  opacity: 1;
+}
+
+.screen-transition-content {
+  text-align: center;
+  color: #00f0ff;
+}
+
+.loading-bar {
+  width: 200px;
+  height: 4px;
+  background-color: rgba(0, 240, 255, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background-color: #00f0ff;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s ease;
+}

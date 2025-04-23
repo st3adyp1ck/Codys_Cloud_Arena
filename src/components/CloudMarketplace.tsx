@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { useGame } from '../context/GameContext';
 import { RobotPart } from '../types';
-import Button from './ui/Button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from './ui/Card';
-import { ArrowLeft, Server, ShoppingCart, Filter, Search } from 'lucide-react';
+import { ArrowLeft, Filter, Search } from 'lucide-react';
 import RobotPartCard from './ui/RobotPartCard';
 import CloudServiceCard from './ui/CloudServiceCard';
-import { FuturisticCard } from './ui/FuturisticCard';
 
 const CloudMarketplace: React.FC = () => {
   const { state, dispatch } = useGame();
@@ -75,26 +72,22 @@ const CloudMarketplace: React.FC = () => {
       </div>
 
       {/* Player info */}
-      <FuturisticCard
-        className="mb-6"
-        variant="primary"
-        withGlow
-        withScanlines
-        padding="sm"
-      >
-        <div className="flex justify-between items-center">
+      <div className="motherboard-card blue mb-6 p-3 relative">
+        <div className="circuit-traces"></div>
+        <div className="connection-points"></div>
+        <div className="flex justify-between items-center relative z-10">
           <div>
-            <p className="text-sm text-black font-medium">Available Credits</p>
+            <p className="text-sm text-[#e9f1f7] font-medium">Available Credits</p>
             <p className="text-2xl font-['Orbitron'] font-bold text-[#00f0ff]">{player.credits}</p>
           </div>
           {activeRobot && (
             <div>
-              <p className="text-sm text-black font-medium">Active Robot</p>
+              <p className="text-sm text-[#e9f1f7] font-medium">Active Robot</p>
               <p className="text-lg font-['Orbitron'] font-medium text-[#00f0ff]">{activeRobot.name}</p>
             </div>
           )}
         </div>
-      </FuturisticCard>
+      </div>
 
       {/* Tabs */}
       <div className="mb-6 flex">
@@ -173,8 +166,10 @@ const CloudMarketplace: React.FC = () => {
               })}
             </div>
           ) : (
-            <div className="text-center p-8 frosted-glass rounded-lg">
-              <p className="text-black font-medium font-['Rajdhani']">No parts found matching your search.</p>
+            <div className="text-center p-8 motherboard-card blue rounded-lg relative">
+              <div className="circuit-traces"></div>
+              <div className="connection-points"></div>
+              <p className="text-[#e9f1f7] font-medium font-['Rajdhani'] relative z-10">No parts found matching your search.</p>
             </div>
           )}
         </>

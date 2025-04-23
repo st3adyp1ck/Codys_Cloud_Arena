@@ -14,14 +14,33 @@ export default {
         'lightning': 'lightning 1s ease-in-out',
         'environment-pulse': 'environment-pulse 8s ease-in-out infinite',
         'scan': 'scan 3s linear infinite',
+        'scan-vertical': 'scan-vertical 3s linear infinite',
         'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
         'holographic': 'holographic-move 3s linear infinite',
         'rotate': 'rotate-gradient 3s linear infinite',
+        'blink': 'blink 1s ease-in-out infinite',
+        'float-slow': 'float 8s ease-in-out infinite',
+        'float-fast': 'float 3s ease-in-out infinite',
+        'typing-cursor': 'typing-cursor 0.8s step-end infinite',
+        'circuit-fade': 'circuit-fade 4s ease-in-out infinite',
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-20px)' },
+        },
+        blink: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' },
+        },
+        'typing-cursor': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0' },
+        },
+        'circuit-fade': {
+          '0%': { opacity: '0.05' },
+          '50%': { opacity: '0.2' },
+          '100%': { opacity: '0.05' },
         },
         ripple: {
           '0%': { transform: 'scale(0.8) translate(-50%, -50%)', opacity: '1' },
@@ -62,6 +81,10 @@ export default {
         scan: {
           '0%': { left: '-100%' },
           '100%': { left: '100%' },
+        },
+        'scan-vertical': {
+          '0%': { top: '-100%' },
+          '100%': { top: '100%' },
         },
         'pulse-glow': {
           '0%, 100%': { opacity: '0.5' },

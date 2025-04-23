@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useGame } from '../context/GameContext';
 import { BattleMove, Robot } from '../types';
 import Button from './ui/Button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/Card';
+import { Card, CardContent, CardFooter } from './ui/Card';
 import { Sword, Shield, Zap, ArrowLeft, Trophy, X, Cloud, Droplets, Flame, Wind } from 'lucide-react';
 import { enemyRobots } from '../data/enemies';
 
@@ -17,6 +17,7 @@ const BattleArena: React.FC = () => {
   const [showDefeatAnimation, setShowDefeatAnimation] = useState(false);
   const [showStatusEffect, setShowStatusEffect] = useState<string | null>(null);
   const [showEnvironmentEffect, setShowEnvironmentEffect] = useState<string | null>(null);
+  const [targetLocked, setTargetLocked] = useState(false);
 
   // Get the active robot
   const activeRobot = player.robots.find(robot => robot.id === player.activeRobotId);
@@ -187,6 +188,14 @@ const BattleArena: React.FC = () => {
     }
   }, [battleState?.winner]);
 
+  useEffect(() => {
+    if (battleState?.turn === 'player') {
+      setTimeout(() => setTargetLocked(true), 1000);
+    } else {
+      setTargetLocked(false);
+    }
+  }, [battleState?.turn]);
+
   return (
     <div className="w-full max-w-4xl mx-auto pt-8 px-4">
       <div className="flex items-center justify-between mb-8">
@@ -206,10 +215,12 @@ const BattleArena: React.FC = () => {
           {activeRobot ? (
             <>
               <Card className="bg-gradient-to-r from-blue-50 to-teal-50 border border-blue-100">
-                <CardHeader>
-                  <CardTitle>Your Robot: {activeRobot.name}</CardTitle>
-                </CardHeader>
-                <CardContent>
+                <CardContent className="pt-4">
+                  {/* Robot Name */}
+                  <h3 className="text-lg font-bold text-black mb-3">
+                    Your Robot: {activeRobot.name}
+                  </h3>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="bg-white p-3 rounded-md shadow-sm">
                       <p className="text-sm text-gray-500">Power</p>
@@ -251,33 +262,40 @@ const BattleArena: React.FC = () => {
                 </CardContent>
               </Card>
 
+              {/* Battle Information */}
+              <div className="bg-red-50/80 p-4 rounded-lg mb-4">
+                <p className="text-black">
+                  Your robot will face a randomly selected opponent powered by Alibaba Cloud AI. Use your robot's unique abilities to defeat them and earn rewards!
+                </p>
+              </div>
+
+              {/* Available Moves Section */}
+              <div className="mb-4">
+                <h4 className="font-bold text-black mb-2">Available Moves:</h4>
+                <div className="space-y-2">
+                  {battleMoves.map((move) => (
+                    <div key={move.type} className="flex items-center gap-2">
+                      {/* Icon based on move type */}
+                      {move.type === 'attack' && <Sword className="w-5 h-5 text-[#ff3366]" />}
+                      {move.type === 'defend' && <Shield className="w-5 h-5 text-[#00ff88]" />}
+                      {move.type === 'special' && <Zap className="w-5 h-5 text-[#7b42ff]" />}
+
+                      {/* Move description with matching color */}
+                      <span className={`
+                        ${move.type === 'attack' ? 'text-[#ff3366]' : ''}
+                        ${move.type === 'defend' ? 'text-[#00ff88]' : ''}
+                        ${move.type === 'special' ? 'text-[#7b42ff]' : ''}
+                        font-medium
+                      `}>
+                        {move.description}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
               <Card className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-100">
-                <CardHeader>
-                  <CardTitle>Battle Information</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-black font-medium mb-4">
-                    Your robot will face a randomly selected opponent powered by Alibaba Cloud AI. Use your robot's unique abilities to defeat them and earn rewards!
-                  </p>
-                  <div className="bg-white p-4 rounded-md shadow-sm">
-                    <h4 className="font-medium text-gray-800 mb-2">Available Moves:</h4>
-                    <ul className="space-y-2">
-                      <li className="flex items-center">
-                        <Sword className="w-4 h-4 text-red-500 mr-2" />
-                        <span>Cloud Cannon Attack - High damage attack</span>
-                      </li>
-                      <li className="flex items-center">
-                        <Shield className="w-4 h-4 text-blue-500 mr-2" />
-                        <span>Security Shield Defense - Reduces incoming damage</span>
-                      </li>
-                      <li className="flex items-center">
-                        <Zap className="w-4 h-4 text-yellow-500 mr-2" />
-                        <span>Function Compute Special - Powerful special ability</span>
-                      </li>
-                    </ul>
-                  </div>
-                </CardContent>
-                <CardFooter>
+                <CardFooter className="pt-4">
                   <Button
                     variant="accent"
                     leftIcon={<Sword />}
@@ -457,8 +475,15 @@ const BattleArena: React.FC = () => {
             </div>
 
             {/* Enemy robot with enhanced design */}
-            <div className="absolute right-20 bottom-20 w-32 h-40 transform-gpu transition-all duration-500"
-              style={{ transform: battleState?.turn === 'enemy' ? 'translateX(-20px)' : 'translateX(0)' }}>
+            <div className={`absolute right-20 bottom-20 w-32 h-40 transform-gpu transition-all duration-500 ${targetLocked ? 'target-lock' : ''}`}>
+              {/* Target acquisition data */}
+              {targetLocked && (
+                <div className="absolute -left-40 top-0 terminator-text text-xs">
+                  <div>TARGET ACQUIRED</div>
+                  <div>THREAT LEVEL: {battleState.enemyHealth}%</div>
+                  <div>ANALYZING WEAK POINTS...</div>
+                </div>
+              )}
               <div className="relative">
                 {/* Robot head */}
                 <div className="w-16 h-16 mx-auto bg-gradient-to-br from-[#0a1128] to-[#1a2b57] rounded-xl border-2 border-[#ff3366]/50 shadow-[0_0_15px_rgba(255,51,102,0.3)]">
@@ -669,31 +694,6 @@ const BattleArena: React.FC = () => {
             )}
           </div>
 
-          {/* Battle log */}
-          <div className="frosted-glass-dark rounded-lg">
-            <div className="p-3 border-b border-[#00f0ff]/20">
-              <h3 className="font-['Orbitron'] text-[#00f0ff] text-base">Battle Log</h3>
-            </div>
-            <div className="p-3">
-              <div className="battle-log">
-                {battleState.log.map((entry, index) => {
-                  // Determine entry type
-                  let entryClass = 'system';
-                  if (entry.includes('Your robot')) entryClass = 'player';
-                  else if (entry.includes('Enemy robot')) entryClass = 'enemy';
-                  else if (entry.includes('won the battle')) entryClass = 'victory';
-                  else if (entry.includes('lost the battle')) entryClass = 'defeat';
-
-                  return (
-                    <div key={index} className={`battle-log-entry ${entryClass} text-sm`}>
-                      {entry}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
           {/* Battle controls */}
           {battleState.winner ? (
             <div className={`frosted-glass rounded-lg overflow-hidden ${battleState.winner === 'player' ? 'border-[#00ff88]/40' : 'border-[#ff3366]/40'}`}>
@@ -808,6 +808,31 @@ const BattleArena: React.FC = () => {
               <p className="text-[#ff3366] font-['Orbitron'] animate-pulse">ENEMY IS CALCULATING NEXT MOVE...</p>
             </div>
           )}
+
+          {/* Battle log */}
+          <div className="frosted-glass-dark rounded-lg mt-4">
+            <div className="p-3 border-b border-[#00f0ff]/20">
+              <h3 className="font-['Orbitron'] text-[#00f0ff] text-base">Battle Log</h3>
+            </div>
+            <div className="p-3">
+              <div className="battle-log">
+                {battleState.log.map((entry, index) => {
+                  // Determine entry type
+                  let entryClass = 'system';
+                  if (entry.includes('Your robot')) entryClass = 'player';
+                  else if (entry.includes('Enemy robot')) entryClass = 'enemy';
+                  else if (entry.includes('won the battle')) entryClass = 'victory';
+                  else if (entry.includes('lost the battle')) entryClass = 'defeat';
+
+                  return (
+                    <div key={index} className={`battle-log-entry ${entryClass} text-sm`}>
+                      {entry}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
@@ -830,3 +855,10 @@ const BattleArena: React.FC = () => {
 };
 
 export default BattleArena;
+
+
+
+
+
+
+

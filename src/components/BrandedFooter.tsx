@@ -38,10 +38,10 @@ const BrandedFooter: React.FC = () => {
       </a>
 
       {/* Copyright */}
-      <div className="text-black font-medium text-xs font-['Rajdhani'] border-t border-[#00f0ff]/20 pt-3 mt-3">
-        <p>POWERED BY ALIBABA CLOUD SERVICES</p>
+      <div className="text-[#e9f1f7] font-medium text-xs font-['Rajdhani'] border-t border-[#00f0ff]/20 pt-3 mt-3">
+        <p className="text-[#b14aed] font-bold">POWERED BY ALIBABA CLOUD SERVICES</p>
         <p className="mt-1 font-semibold">
-          © {new Date().getFullYear()} <span className="text-[#00f0ff]">NORTHSTAR CODING</span> | ALL RIGHTS RESERVED
+          © {new Date().getFullYear()} <span className="text-[#00f0ff]">NORTHSTAR CODING</span> | <span className="text-[#b14aed]">ALL RIGHTS RESERVED</span>
         </p>
         <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#00f0ff]/30 to-transparent mt-2"></div>
       </div>

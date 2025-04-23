@@ -280,6 +280,16 @@ h6 {
   }
 }
 
+@keyframes scan-vertical {
+  0% {
+    top: -100%;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
 @keyframes progress-shine {
   0% {
     left: -100%;
@@ -321,6 +331,66 @@ h6 {
 
   50% {
     transform: translateY(-10px);
+  }
+}
+
+@keyframes circuit-pulse {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    box-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
+  }
+
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.8);
+  }
+}
+
+@keyframes data-flow {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes connection-blink {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.5;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 1;
+  }
+}
+
+@keyframes hover-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
   }
 }
 
@@ -370,6 +440,341 @@ h6 {
   z-index: -1;
 }
 
+/* Motherboard Card Styles */
+.motherboard-card {
+  position: relative;
+  background: linear-gradient(135deg, #0a1128 0%, #162040 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.motherboard-card:hover {
+  transform: translateY(-5px);
+  animation: hover-glow 2s infinite;
+}
+
+.motherboard-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%2300f0ff' stroke-width='0.5' stroke-opacity='0.2'/%3E%3Cpath d='M30 10v20M50 10v80M70 10v20M10 30h20M70 30h20M10 50h80M10 70h20M70 70h20' stroke='%2300f0ff' stroke-width='0.5' stroke-opacity='0.2'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%2300f0ff' fill-opacity='0.3'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%2300f0ff' fill-opacity='0.3'/%3E%3Ccircle cx='30' cy='70' r='2' fill='%2300f0ff' fill-opacity='0.3'/%3E%3Ccircle cx='70' cy='70' r='2' fill='%2300f0ff' fill-opacity='0.3'/%3E%3C/svg%3E");
+  opacity: 0.15;
+  z-index: 0;
+}
+
+.motherboard-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0, 240, 255, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 80% 80%, rgba(123, 66, 255, 0.1) 0%, transparent 20%);
+  z-index: 0;
+}
+
+/* Scan lines */
+.motherboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.5), transparent);
+  opacity: 0;
+  z-index: 2;
+  animation: scan-line 4s linear infinite;
+}
+
+.motherboard-card:hover::before {
+  opacity: 0.7;
+}
+
+/* Circuit traces */
+.motherboard-card .circuit-traces {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.motherboard-card .circuit-traces::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.5) 10%, rgba(0, 240, 255, 0.2) 50%, rgba(0, 240, 255, 0.5) 90%, transparent);
+}
+
+.motherboard-card .circuit-traces::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, rgba(123, 66, 255, 0.5) 10%, rgba(123, 66, 255, 0.2) 50%, rgba(123, 66, 255, 0.5) 90%, transparent);
+}
+
+/* Data flow animation */
+.motherboard-card:hover .circuit-traces::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.5) 10%, rgba(0, 240, 255, 0.2) 50%, rgba(0, 240, 255, 0.5) 90%, transparent);
+}
+
+.motherboard-card .circuit-traces::before::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 100%;
+  background: rgba(0, 240, 255, 0.8);
+  animation: data-flow 3s linear infinite;
+}
+
+.motherboard-card:hover .circuit-traces::after::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: rgba(123, 66, 255, 0.8);
+  animation: data-flow 3s linear infinite;
+}
+
+/* Additional circuit nodes */
+.motherboard-card .circuit-traces::before {
+  content: '';
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.6);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.8);
+  animation: circuit-pulse 2s infinite;
+}
+
+.motherboard-card .circuit-traces::after {
+  content: '';
+  position: absolute;
+  bottom: 25%;
+  right: 25%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(123, 66, 255, 0.6);
+  box-shadow: 0 0 8px rgba(123, 66, 255, 0.8);
+  animation: circuit-pulse 2s infinite;
+  animation-delay: 1s;
+}
+
+/* Connection points */
+.motherboard-card .connection-points {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.motherboard-card .connection-points::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 5px rgba(0, 240, 255, 0.8);
+  animation: connection-blink 3s infinite;
+}
+
+.motherboard-card .connection-points::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(123, 66, 255, 0.5);
+  box-shadow: 0 0 5px rgba(123, 66, 255, 0.8);
+  animation: connection-blink 3s infinite;
+  animation-delay: 1.5s;
+}
+
+/* Additional connection points */
+.motherboard-card:hover .connection-points::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(0, 255, 136, 0.5);
+  box-shadow: 0 0 5px rgba(0, 255, 136, 0.8);
+  animation: connection-blink 2s infinite;
+  animation-delay: 0.5s;
+}
+
+.motherboard-card:hover .connection-points::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 51, 102, 0.5);
+  box-shadow: 0 0 5px rgba(255, 51, 102, 0.8);
+  animation: connection-blink 2s infinite;
+  animation-delay: 1s;
+}
+
+/* Vertical scan line */
+.motherboard-card:hover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent, rgba(123, 66, 255, 0.5), transparent);
+  opacity: 0.7;
+  z-index: 2;
+  animation: scan-vertical 4s linear infinite;
+  animation-delay: 2s;
+}
+
+/* Color variants */
+.motherboard-card.blue {
+  background: linear-gradient(135deg, #0a1128 0%, #162040 100%);
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.motherboard-card.green {
+  background: linear-gradient(135deg, #0a1f1a 0%, #163828 100%);
+  border-color: rgba(0, 255, 136, 0.3);
+}
+
+.motherboard-card.green::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%2300ff88' stroke-width='0.5' stroke-opacity='0.2'/%3E%3Cpath d='M30 10v20M50 10v80M70 10v20M10 30h20M70 30h20M10 50h80M10 70h20M70 70h20' stroke='%2300ff88' stroke-width='0.5' stroke-opacity='0.2'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%2300ff88' fill-opacity='0.3'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%2300ff88' fill-opacity='0.3'/%3E%3Ccircle cx='30' cy='70' r='2' fill='%2300ff88' fill-opacity='0.3'/%3E%3Ccircle cx='70' cy='70' r='2' fill='%2300ff88' fill-opacity='0.3'/%3E%3C/svg%3E");
+}
+
+.motherboard-card.green .circuit-traces::before {
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.5) 10%, rgba(0, 255, 136, 0.2) 50%, rgba(0, 255, 136, 0.5) 90%, transparent);
+}
+
+.motherboard-card.green .connection-points::before {
+  background: rgba(0, 255, 136, 0.5);
+  box-shadow: 0 0 5px rgba(0, 255, 136, 0.8);
+}
+
+.motherboard-card.purple {
+  background: linear-gradient(135deg, #1a0a28 0%, #2d1640 100%);
+  border-color: rgba(177, 74, 237, 0.3);
+}
+
+.motherboard-card.purple::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%23b14aed' stroke-width='0.5' stroke-opacity='0.2'/%3E%3Cpath d='M30 10v20M50 10v80M70 10v20M10 30h20M70 30h20M10 50h80M10 70h20M70 70h20' stroke='%23b14aed' stroke-width='0.5' stroke-opacity='0.2'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23b14aed' fill-opacity='0.3'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%23b14aed' fill-opacity='0.3'/%3E%3Ccircle cx='30' cy='70' r='2' fill='%23b14aed' fill-opacity='0.3'/%3E%3Ccircle cx='70' cy='70' r='2' fill='%23b14aed' fill-opacity='0.3'/%3E%3C/svg%3E");
+}
+
+.motherboard-card.purple .circuit-traces::before {
+  background: linear-gradient(90deg, transparent, rgba(177, 74, 237, 0.5) 10%, rgba(177, 74, 237, 0.2) 50%, rgba(177, 74, 237, 0.5) 90%, transparent);
+}
+
+.motherboard-card.purple .connection-points::before {
+  background: rgba(177, 74, 237, 0.5);
+  box-shadow: 0 0 5px rgba(177, 74, 237, 0.8);
+}
+
+/* Gold variant for 1st place */
+.motherboard-card.gold {
+  background: linear-gradient(135deg, #1a1500 0%, #332b00 100%);
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.motherboard-card.gold::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%23ffd700' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Cpath d='M30 10v20M50 10v80M70 10v20M10 30h20M70 30h20M10 50h80M10 70h20M70 70h20' stroke='%23ffd700' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23ffd700' fill-opacity='0.4'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%23ffd700' fill-opacity='0.4'/%3E%3Ccircle cx='30' cy='70' r='2' fill='%23ffd700' fill-opacity='0.4'/%3E%3Ccircle cx='70' cy='70' r='2' fill='%23ffd700' fill-opacity='0.4'/%3E%3C/svg%3E");
+}
+
+.motherboard-card.gold .circuit-traces::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.6) 10%, rgba(255, 215, 0, 0.3) 50%, rgba(255, 215, 0, 0.6) 90%, transparent);
+}
+
+.motherboard-card.gold .circuit-traces::after {
+  background: linear-gradient(180deg, transparent, rgba(255, 215, 0, 0.6) 10%, rgba(255, 215, 0, 0.3) 50%, rgba(255, 215, 0, 0.6) 90%, transparent);
+}
+
+.motherboard-card.gold .connection-points::before,
+.motherboard-card.gold .connection-points::after {
+  background: rgba(255, 215, 0, 0.7);
+  box-shadow: 0 0 10px rgba(255, 215, 0, 1);
+  animation: connection-blink 1.5s infinite;
+}
+
+/* Silver variant for 2nd place */
+.motherboard-card.silver {
+  background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%);
+  border-color: rgba(192, 192, 192, 0.5);
+  box-shadow: 0 0 15px rgba(192, 192, 192, 0.3);
+}
+
+.motherboard-card.silver::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%23c0c0c0' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Cpath d='M30 10v20M50 10v80M70 10v20M10 30h20M70 30h20M10 50h80M10 70h20M70 70h20' stroke='%23c0c0c0' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23c0c0c0' fill-opacity='0.4'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%23c0c0c0' fill-opacity='0.4'/%3E%3Ccircle cx='30' cy='70' r='2' fill='%23c0c0c0' fill-opacity='0.4'/%3E%3Ccircle cx='70' cy='70' r='2' fill='%23c0c0c0' fill-opacity='0.4'/%3E%3C/svg%3E");
+}
+
+.motherboard-card.silver .circuit-traces::before {
+  background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.6) 10%, rgba(192, 192, 192, 0.3) 50%, rgba(192, 192, 192, 0.6) 90%, transparent);
+}
+
+.motherboard-card.silver .circuit-traces::after {
+  background: linear-gradient(180deg, transparent, rgba(192, 192, 192, 0.6) 10%, rgba(192, 192, 192, 0.3) 50%, rgba(192, 192, 192, 0.6) 90%, transparent);
+}
+
+.motherboard-card.silver .connection-points::before,
+.motherboard-card.silver .connection-points::after {
+  background: rgba(192, 192, 192, 0.7);
+  box-shadow: 0 0 8px rgba(192, 192, 192, 1);
+  animation: connection-blink 2s infinite;
+}
+
+/* Bronze variant for 3rd place */
+.motherboard-card.bronze {
+  background: linear-gradient(135deg, #1a0e00 0%, #331c00 100%);
+  border-color: rgba(205, 127, 50, 0.5);
+  box-shadow: 0 0 12px rgba(205, 127, 50, 0.3);
+}
+
+.motherboard-card.bronze::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10h80v80H10z' fill='none' stroke='%23cd7f32' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Cpath d='M30 10v20M50 10v80M70 10v20M10 30h20M70 30h20M10 50h80M10 70h20M70 70h20' stroke='%23cd7f32' stroke-width='0.5' stroke-opacity='0.3'/%3E%3Ccircle cx='30' cy='30' r='2' fill='%23cd7f32' fill-opacity='0.4'/%3E%3Ccircle cx='70' cy='30' r='2' fill='%23cd7f32' fill-opacity='0.4'/%3E%3Ccircle cx='30' cy='70' r='2' fill='%23cd7f32' fill-opacity='0.4'/%3E%3Ccircle cx='70' cy='70' r='2' fill='%23cd7f32' fill-opacity='0.4'/%3E%3C/svg%3E");
+}
+
+.motherboard-card.bronze .circuit-traces::before {
+  background: linear-gradient(90deg, transparent, rgba(205, 127, 50, 0.6) 10%, rgba(205, 127, 50, 0.3) 50%, rgba(205, 127, 50, 0.6) 90%, transparent);
+}
+
+.motherboard-card.bronze .circuit-traces::after {
+  background: linear-gradient(180deg, transparent, rgba(205, 127, 50, 0.6) 10%, rgba(205, 127, 50, 0.3) 50%, rgba(205, 127, 50, 0.6) 90%, transparent);
+}
+
+.motherboard-card.bronze .connection-points::before,
+.motherboard-card.bronze .connection-points::after {
+  background: rgba(205, 127, 50, 0.7);
+  box-shadow: 0 0 8px rgba(205, 127, 50, 1);
+  animation: connection-blink 2.5s infinite;
+}
+
 /* Robot-themed scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -415,7 +820,7 @@ h6 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
+  color: transparent;
 }
 
 /* Improved Text Readability */
@@ -483,4 +888,112 @@ h6 {
 .battle-log-entry.defeat {
   border-left-color: var(--danger);
   background: rgba(255, 51, 102, 0.1);
+}
+
+/* Terminator Vision Overlay */
+.terminator-vision {
+  position: relative;
+}
+
+.terminator-vision::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(transparent 50%, rgba(255, 0, 0, 0.02) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(255, 0, 0, 0.03) 3px, transparent 3px);
+  background-size: 100% 2px, 4px 100%;
+  pointer-events: none;
+  z-index: 9999;
+  animation: scan-lines 10s linear infinite;
+}
+
+/* Targeting System */
+.target-lock {
+  position: relative;
+}
+
+.target-lock::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2px solid rgba(255, 0, 0, 0.5);
+  border-radius: 50%;
+  animation: target-pulse 2s infinite;
+}
+
+.target-lock::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 100px;
+  background: rgba(255, 0, 0, 0.5);
+  transform-origin: center;
+  animation: target-scan 4s linear infinite;
+}
+
+@keyframes scan-lines {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100%;
+  }
+}
+
+@keyframes target-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.2);
+    opacity: 0.5;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Terminator Text Effect */
+.terminator-text {
+  font-family: 'Orbitron', monospace;
+  color: #ff0000;
+  text-shadow:
+    0 0 10px rgba(255, 0, 0, 0.5),
+    0 0 20px rgba(255, 0, 0, 0.3);
+  animation: text-flicker 2s infinite;
+}
+
+@keyframes text-flicker {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  92% {
+    opacity: 1;
+  }
+
+  93% {
+    opacity: 0.3;
+  }
+
+  94% {
+    opacity: 1;
+  }
+
+  95% {
+    opacity: 0.5;
+  }
+
+  96% {
+    opacity: 1;
+  }
 }

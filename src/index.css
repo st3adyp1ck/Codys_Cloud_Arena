@@ -1,5 +1,6 @@
-/* Import futuristic theme */
+/* Import styles */
 @import './styles/futuristic-theme.css';
+@import './styles/visual-effects.css';
 
 @tailwind base;
 @tailwind components;
