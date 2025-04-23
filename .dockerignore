@@ -1,0 +1,46 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Build output
+dist
+build
+
+# Environment variables
+.env
+.env.*
+
+# Development files
+*.md
+LICENSE
+docker-compose.yml
+Dockerfile
+.dockerignore
+.eslintrc
+.prettierrc
+.vscode
+.idea
+
+# Deployment files
+deploy.sh
+deploy.config.js
+scripts/
+functions/
+alibaba-cloud-deployment.md
+
+# Test files
+__tests__
+*.test.js
+*.spec.js
+coverage
+
+# Temporary files
+.tmp
+.temp
+.DS_Store

@@ -1,0 +1,11 @@
+{
+  "name": "battle-calculator",
+  "version": "1.0.0",
+  "description": "Function to calculate battle outcomes in Cody's Cloud Arena",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Northstar Coding",
+  "license": "MIT"
+}

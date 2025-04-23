@@ -1,0 +1,82 @@
+/* Import futuristic theme */
+@import './styles/futuristic-theme.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom animations */
+@keyframes scan {
+    0% {
+        left: -100%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes animate-logo {
+
+    0%,
+    100% {
+        filter: drop-shadow(0 0 5px #00f0ff) drop-shadow(0 0 10px #00f0ff);
+        transform: scale(1);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 15px #7b42ff) drop-shadow(0 0 20px #7b42ff);
+        transform: scale(1.05);
+    }
+}
+
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Apply custom font to the entire app */
+body {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: #050914;
+    color: #e9f1f7;
+    min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(10, 17, 40, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(#00a2b3, #00f0ff);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(#00f0ff, #7df9ff);
+}

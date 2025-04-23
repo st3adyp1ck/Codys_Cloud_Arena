@@ -1,0 +1,61 @@
+/**
+ * Deployment configuration for Cody's Cloud Arena
+ * Rename this file to deploy.config.js and update with your values
+ */
+
+module.exports = {
+  // Alibaba Cloud ECS configuration
+  ecs: {
+    host: 'your-ecs-instance-ip',
+    username: 'root',
+    privateKey: '/path/to/your/private-key.pem',
+    deployPath: '/var/www/codys-cloud-arena',
+  },
+  
+  // Alibaba Cloud OSS configuration
+  oss: {
+    region: 'your-oss-region',
+    bucket: 'your-oss-bucket',
+    accessKeyId: 'your-access-key-id',
+    accessKeySecret: 'your-access-key-secret',
+    cdnDomain: 'your-cdn-domain', // Optional
+  },
+  
+  // Database configuration
+  database: {
+    host: 'your-rds-host',
+    port: 3306,
+    database: 'codys_cloud_arena',
+    username: 'game_user',
+    password: 'your-secure-password',
+  },
+  
+  // Function Compute configuration
+  functionCompute: {
+    region: 'your-fc-region',
+    serviceName: 'your-fc-service',
+    functions: [
+      {
+        name: 'battle-calculator',
+        handler: 'index.handler',
+        runtime: 'nodejs14',
+        timeout: 30,
+      },
+      {
+        name: 'leaderboard-updater',
+        handler: 'index.handler',
+        runtime: 'nodejs14',
+        timeout: 30,
+      },
+    ],
+  },
+  
+  // Deployment options
+  options: {
+    buildCommand: 'npm run build',
+    uploadAssets: true,
+    migrateDatabase: true,
+    deployFunctions: true,
+    invalidateCdn: true,
+  },
+};

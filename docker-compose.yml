@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # Frontend application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - api
+    networks:
+      - app-network
+
+  # API server (mock for local development)
+  api:
+    image: node:18-alpine
+    working_dir: /app
+    volumes:
+      - ./api:/app
+    command: sh -c "npm install && npm start"
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=codys_cloud_arena
+      - DB_USER=root
+      - DB_PASSWORD=password
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  # Database
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=codys_cloud_arena
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./database-schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:

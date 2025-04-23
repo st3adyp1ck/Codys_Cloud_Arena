@@ -1,0 +1,81 @@
+#!/bin/bash
+# Deployment script for Cody's Cloud Arena
+# Rename this file to deploy.sh and make it executable with: chmod +x deploy.sh
+
+# Load environment variables
+source .env
+
+# Colors for output
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# Function to print status messages
+print_status() {
+  echo -e "${YELLOW}[DEPLOY]${NC} $1"
+}
+
+# Function to print success messages
+print_success() {
+  echo -e "${GREEN}[SUCCESS]${NC} $1"
+}
+
+# Function to print error messages
+print_error() {
+  echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Check if configuration exists
+if [ ! -f "deploy.config.js" ]; then
+  print_error "deploy.config.js not found. Please create it from the example file."
+  exit 1
+fi
+
+# Build the application
+print_status "Building the application..."
+npm run build
+if [ $? -ne 0 ]; then
+  print_error "Build failed. Aborting deployment."
+  exit 1
+fi
+print_success "Build completed successfully."
+
+# Upload assets to OSS
+print_status "Uploading assets to Alibaba Cloud OSS..."
+node scripts/upload-to-oss.js
+if [ $? -ne 0 ]; then
+  print_error "Failed to upload assets to OSS. Aborting deployment."
+  exit 1
+fi
+print_success "Assets uploaded to OSS successfully."
+
+# Deploy to ECS
+print_status "Deploying to Alibaba Cloud ECS..."
+node scripts/deploy-to-ecs.js
+if [ $? -ne 0 ]; then
+  print_error "Failed to deploy to ECS. Aborting deployment."
+  exit 1
+fi
+print_success "Deployed to ECS successfully."
+
+# Deploy Function Compute functions
+print_status "Deploying serverless functions..."
+node scripts/deploy-functions.js
+if [ $? -ne 0 ]; then
+  print_error "Failed to deploy serverless functions. Aborting deployment."
+  exit 1
+fi
+print_success "Serverless functions deployed successfully."
+
+# Invalidate CDN cache
+print_status "Invalidating CDN cache..."
+node scripts/invalidate-cdn.js
+if [ $? -ne 0 ]; then
+  print_error "Failed to invalidate CDN cache. Deployment may require manual cache purging."
+else
+  print_success "CDN cache invalidated successfully."
+fi
+
+print_success "Deployment completed successfully!"
+print_status "Your application is now available at: https://${VITE_CDN_DOMAIN}"
